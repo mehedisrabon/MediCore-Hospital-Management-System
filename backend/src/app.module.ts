@@ -10,8 +10,9 @@ import { DoctorController } from './doctor/doctor.controller';
 import { ReceptionistController } from './receptionist/receptionist.controller';
 import { DoctorService } from './doctor/doctor.service';
 import { ReceptionistService } from './receptionist/receptionist.service';
+import { AdminModule } from './admin/admin.module';
 @Module({
-  imports: [PatientModule,ReceptionistModule,DoctorModule],
+  imports: [PatientModule,ReceptionistModule,DoctorModule,AdminModule],
   controllers: [AppController,PatientController,ReceptionistController,DoctorController],
   providers: [AppService,PatientService,ReceptionistService,DoctorService],
 })
