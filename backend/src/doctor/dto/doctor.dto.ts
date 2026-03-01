@@ -32,10 +32,11 @@ export class DoctorDto {
   @Type(() => Number)
   experience: number;
 
-  @IsDefined()
-  @IsString()
-  @MinLength(6)
-  password: string;
+@IsDefined()
+@IsString()
+@MinLength(6, { message: 'Password must be at least 6 characters long' })
+@Matches(/^(?=.*[a-z]).*$/, { message: 'Password must contain at least one lowercase letter' })
+password: string;
 
   @IsDefined()
   @Matches(/^01[0-9]{9}$/, { message: 'Phone must be 11 digits starting with 01' })

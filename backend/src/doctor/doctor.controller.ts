@@ -21,11 +21,11 @@ export class DoctorController {
   }
 
  @Post()
- @UsePipes(new ValidationPipe({ transform: true })) 
+@UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true,transform: true })) 
 @UseInterceptors(
   FileInterceptor('file', {
     fileFilter: (req, file, cb) => {
-      if (file.originalname.match(/^.*\.(pdf)$/)) {
+      if (file.originalname.match(/^.*\.(pdf)$/i)) {
         cb(null, true);
       } else {
         cb(new MulterError('LIMIT_UNEXPECTED_FILE', 'file'), false);
