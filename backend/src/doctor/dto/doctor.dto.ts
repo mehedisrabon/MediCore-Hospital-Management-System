@@ -6,15 +6,13 @@ import {
   IsPositive,
   MinLength,
   Matches,
+  IsOptional 
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class DoctorDto {
-
-  @IsDefined()
-  @IsInt()
-  @Type(() => Number)
-  id: number;
+@IsOptional()  
+   id: number; 
 
   @IsDefined()
   @IsString()
@@ -38,9 +36,12 @@ export class DoctorDto {
 @Matches(/^(?=.*[a-z]).*$/, { message: 'Password must contain at least one lowercase letter' })
 password: string;
 
-  @IsDefined()
+@IsDefined()
   @Matches(/^01[0-9]{9}$/, { message: 'Phone must be 11 digits starting with 01' })
   phone: string;
 
+
+
+@IsOptional()  
   file?: string;
 }

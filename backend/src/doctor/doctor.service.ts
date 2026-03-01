@@ -5,7 +5,6 @@ import { DoctorDto } from './dto/doctor.dto';
 export class DoctorService {
   private doctorinfo: DoctorDto[] = [
     {
-      id: 1,
       name: 'Dr Rahman',
       specialization: 'Cardiologist',
       experience: 10,
@@ -14,7 +13,6 @@ export class DoctorService {
       file: 'resume1.pdf'
     },
     {
-      id: 2,
       name: 'Dr Ahmed',
       specialization: 'Dermatologist',
       experience: 7,
@@ -23,7 +21,6 @@ export class DoctorService {
       file: 'resume2.pdf'
     },
     {
-      id: 3,
       name: 'Dr Karim',
       specialization: 'Neurologist',
       experience: 12,
@@ -31,35 +28,65 @@ export class DoctorService {
       phone: '01912345678',
       file: 'resume3.pdf'
     }
-  ];
+  ].map((d, index) => ({ id: index + 1, ...d }));  
+
 
   getAllDoctorsinfo() {
-    return { doctors: this.doctorinfo };
+    const doctors = this.doctorinfo.map(({ password, ...rest }) => rest);
+    return { doctors };
   }
+
 
   getDoctorById(id: number) {
     const doctor = this.doctorinfo.find(d => d.id === id);
-    return doctor || { message: 'Doctor not found' };
+    if (!doctor) return { message: 'Doctor not found' };
+
+    const { password, ...result } = doctor;
+    return result;
   }
 
-  createDoctor(data: DoctorDto) {
-    this.doctorinfo.push(data);
-    return { message: 'Doctor created successfully', doctor: data };
-  }
 
-  updateDoctor(id: number, data: DoctorDto) {
+
+ createDoctor(data: DoctorDto) {
+
+  const newDoctor: DoctorDto = {
+    ...data,                         
+    id: this.doctorinfo.length + 1  
+  };
+
+  this.doctorinfo.push(newDoctor);
+
+  const { password, ...result } = newDoctor;
+  return { message: 'Doctor created successfully', doctor: result };
+}
+
+
+
+  updateDoctor(id: number, data: Partial<DoctorDto>) {
     const doctor = this.doctorinfo.find(d => d.id === id);
     if (!doctor) return { message: 'Doctor not found' };
+
     Object.assign(doctor, data);
-    return { message: 'Doctor updated successfully', doctor };
+
+    const { password, ...result } = doctor;
+    return { message: 'Doctor updated successfully', doctor: result };
   }
+
+
+
 
   patchDoctor(id: number, data: Partial<DoctorDto>) {
     const doctor = this.doctorinfo.find(d => d.id === id);
     if (!doctor) return { message: 'Doctor not found' };
+
     Object.assign(doctor, data);
-    return { message: 'Doctor patched successfully', doctor };
+
+    const { password, ...result } = doctor;
+    return { message: 'Doctor patched successfully', doctor: result };
   }
+
+
+
 
   deleteDoctor(id: number) {
     const index = this.doctorinfo.findIndex(d => d.id === id);
@@ -68,13 +95,25 @@ export class DoctorService {
     return { message: 'Doctor deleted successfully', doctor: deleted[0] };
   }
 
+
+
+
   searchDoctorByName(name: string) {
-    const result = this.doctorinfo.filter(d => d.name.includes(name));
+    const result = this.doctorinfo
+      .filter(d => d.name.includes(name))
+      .map(({ password, ...rest }) => rest);
+
     return { result };
   }
 
+
+
+  
   getDoctorByExperience(exp: number) {
-    const result = this.doctorinfo.filter(d => d.experience >= exp);
+    const result = this.doctorinfo
+      .filter(d => d.experience >= exp)
+      .map(({ password, ...rest }) => rest);
+
     return { result };
   }
 }

@@ -11,6 +11,7 @@ export class DoctorController {
   constructor(private readonly doctorService: DoctorService) {}
 
   @Get()
+  
   getAllDoctorsinfo() {
     return this.doctorService.getAllDoctorsinfo();
   }
@@ -56,7 +57,7 @@ createDoctor(
 
 
   @Put(':id')
-  updateDoctor(@Param('id') id: string, @Body() data: DoctorDto) {
+updateDoctor(@Param('id') id: string, @Body() data: Partial<DoctorDto>) {
     return this.doctorService.updateDoctor(Number(id), data);
   }
 
